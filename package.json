@@ -24,7 +24,8 @@
     "supertest": "^4.0.2"
   },
   "scripts": {
-    "start-dev": "nodemon index.js",
+    "start": "node index",
+    "dev": "nodemon index",
     "migrate": "npx sequelize-cli db:migrate",
     "migrate:reset": "npx sequelize-cli db:migrate:undo:all && npm run migrate",
     "test": "cross-env NODE_ENV=test jest --testTimeout=10000",
