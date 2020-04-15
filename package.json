@@ -18,18 +18,32 @@
     ]
   },
   "devDependencies": {
+    "@babel/core": "^7.9.0",
+    "@babel/node": "^7.8.7",
+    "@babel/preset-env": "^7.9.5",
+    "@babel/register": "^7.9.0",
     "cross-env": "^6.0.3",
-    "jest": "^24.9.0",
+    "eslint": "^6.8.0",
+    "eslint-config-airbnb": "^18.1.0",
+    "eslint-config-prettier": "^6.10.1",
+    "eslint-plugin-import": "^2.20.2",
+    "eslint-plugin-jsx-a11y": "^6.2.3",
+    "eslint-plugin-prettier": "^3.1.3",
+    "eslint-plugin-react": "^7.19.0",
+    "eslint-plugin-react-hooks": "^2.5.1",
+    "jest": "^25.3.0",
     "nodemon": "^2.0.2",
+    "prettier": "^2.0.4",
     "supertest": "^4.0.2"
   },
   "scripts": {
-    "start-dev": "nodemon index.js",
+    "start": "babel-node index",
+    "dev": "nodemon --exec babel-node index",
     "migrate": "npx sequelize-cli db:migrate",
     "migrate:reset": "npx sequelize-cli db:migrate:undo:all && npm run migrate",
     "test": "cross-env NODE_ENV=test jest --testTimeout=10000",
     "pretest": "cross-env NODE_ENV=test npm run migrate:reset"
   },
-  "author": "",
+  "author": "RedJanvier",
   "license": "ISC"
 }

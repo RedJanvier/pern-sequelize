@@ -1,7 +1,15 @@
-require('dotenv').config();
+import { config } from 'dotenv';
+import express, { json } from 'express';
+import routes from './routes';
 
-const server = require('./server');
-
+config();
+const server = express();
 const PORT = process.env.PORT || 3300;
 
-server.listen(PORT, () => console.log(`Server is live at localhost: ${ PORT }`))
+server.use(json());
+
+server.use('/api', routes);
+
+server.listen(PORT, console.log(`Server started on http://localhost:${PORT}/api`))
+
+export default server;
