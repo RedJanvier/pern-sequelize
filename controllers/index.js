@@ -1,8 +1,8 @@
-const models = require('../database/models');
+import { Post, Comment, User } from '../database/models';
 
-const createPost = async (req, res) => {
+export const createPost = async (req, res) => {
   try {
-    const post = await models.Post.create(req.body);
+    const post = await Post.create(req.body);
     return res.status(201).json({
       post,
     });
@@ -11,16 +11,16 @@ const createPost = async (req, res) => {
   }
 }
 
-const getAllPosts = async (req, res) => {
+export const getAllPosts = async (req, res) => {
   try {
-    const posts = await models.Post.findAll({
+    const posts = await Post.findAll({
       include: [
         {
-          model: models.Comment,
+          model: Comment,
           as: 'comments'
         },
         {
-          model: models.User,
+          model: User,
           as: 'author'
         }
       ]
@@ -31,24 +31,24 @@ const getAllPosts = async (req, res) => {
   }
 }
 
-const getPostById = async (req, res) => {
+export const getPostById = async (req, res) => {
   try {
     const { postId } = req.params;
-    const post = await models.Post.findOne({
+    const post = await Post.findOne({
       where: { id: postId },
       include: [
         {
-          model: models.Comment,
+          model: Comment,
           as: 'comments',
           include: [
             {
-              model: models.User,
+              model: User,
               as: 'author',
             }
           ]
         },
         {
-          model: models.User,
+          model: User,
           as: 'author'
         }
       ]
@@ -62,14 +62,14 @@ const getPostById = async (req, res) => {
   }
 }
 
-const updatePost = async (req, res) => {
+export const updatePost = async (req, res) => {
   try {
     const { postId } = req.params;
-    const [updated] = await models.Post.update(req.body, {
+    const [updated] = await Post.update(req.body, {
       where: { id: postId }
     });
     if (updated) {
-      const updatedPost = await models.Post.findOne({ where: { id: postId } });
+      const updatedPost = await Post.findOne({ where: { id: postId } });
       return res.status(200).json({ post: updatedPost });
     }
     throw new Error('Post not found');
@@ -78,10 +78,10 @@ const updatePost = async (req, res) => {
   }
 };
 
-const deletePost = async (req, res) => {
+export const deletePost = async (req, res) => {
   try {
     const { postId } = req.params;
-    const deleted = await models.Post.destroy({
+    const deleted = await Post.destroy({
       where: { id: postId }
     });
     if (deleted) {
@@ -93,10 +93,3 @@ const deletePost = async (req, res) => {
   }
 };
 
-module.exports = {
-  createPost,
-  getAllPosts,
-  getPostById,
-  updatePost,
-  deletePost
-}
