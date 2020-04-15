@@ -7,9 +7,9 @@ export const createPost = async (req, res) => {
       post,
     });
   } catch (error) {
-    return res.status(500).json({error: error.message})
+    return res.status(500).json({ error: error.message });
   }
-}
+};
 
 export const getAllPosts = async (req, res) => {
   try {
@@ -17,19 +17,19 @@ export const getAllPosts = async (req, res) => {
       include: [
         {
           model: Comment,
-          as: 'comments'
+          as: 'comments',
         },
         {
           model: User,
-          as: 'author'
-        }
-      ]
+          as: 'author',
+        },
+      ],
     });
     return res.status(200).json({ posts });
   } catch (error) {
     return res.status(500).send(error.message);
   }
-}
+};
 
 export const getPostById = async (req, res) => {
   try {
@@ -44,14 +44,14 @@ export const getPostById = async (req, res) => {
             {
               model: User,
               as: 'author',
-            }
-          ]
+            },
+          ],
         },
         {
           model: User,
-          as: 'author'
-        }
-      ]
+          as: 'author',
+        },
+      ],
     });
     if (post) {
       return res.status(200).json({ post });
@@ -60,13 +60,13 @@ export const getPostById = async (req, res) => {
   } catch (error) {
     return res.status(500).send(error.message);
   }
-}
+};
 
 export const updatePost = async (req, res) => {
   try {
     const { postId } = req.params;
     const [updated] = await Post.update(req.body, {
-      where: { id: postId }
+      where: { id: postId },
     });
     if (updated) {
       const updatedPost = await Post.findOne({ where: { id: postId } });
@@ -82,14 +82,13 @@ export const deletePost = async (req, res) => {
   try {
     const { postId } = req.params;
     const deleted = await Post.destroy({
-      where: { id: postId }
+      where: { id: postId },
     });
     if (deleted) {
-      return res.status(204).send("Post deleted");
+      return res.status(204).send('Post deleted');
     }
-    throw new Error("Post not found");
+    throw new Error('Post not found');
   } catch (error) {
     return res.status(500).send(error.message);
   }
 };
-
