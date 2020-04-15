@@ -18,14 +18,18 @@
     ]
   },
   "devDependencies": {
+    "@babel/core": "^7.9.0",
+    "@babel/node": "^7.8.7",
+    "@babel/preset-env": "^7.9.5",
+    "@babel/register": "^7.9.0",
     "cross-env": "^6.0.3",
-    "jest": "^24.9.0",
+    "jest": "^25.3.0",
     "nodemon": "^2.0.2",
     "supertest": "^4.0.2"
   },
   "scripts": {
-    "start": "node index",
-    "dev": "nodemon index",
+    "start": "babel-node index",
+    "dev": "nodemon --exec babel-node index",
     "migrate": "npx sequelize-cli db:migrate",
     "migrate:reset": "npx sequelize-cli db:migrate:undo:all && npm run migrate",
     "test": "cross-env NODE_ENV=test jest --testTimeout=10000",
